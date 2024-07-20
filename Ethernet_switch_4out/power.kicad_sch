@@ -1524,7 +1524,7 @@
     (property "Reference" "U7" (at 143.51 49.53 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "TX4410" (at 143.51 52.07 0)
+    (property "Value" "TX4401" (at 143.51 52.07 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm" (at 141.605 38.735 0)
