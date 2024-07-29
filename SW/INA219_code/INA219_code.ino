@@ -16,9 +16,7 @@ Wire.begin(2,1);
 
   byte error, address;
   int nDevices;
- 
   Serial.println("Scanning...");
- 
   nDevices = 0;
   for(address = 1; address < 127; address++ )
   {
