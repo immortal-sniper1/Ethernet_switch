@@ -3,7 +3,7 @@
 
 INA219 INA(0x40);
 
-uint16_t my_shunt= 50; // mohm
+float  my_shunt= 50.0f; // mohm
 
 void setup()
 {
@@ -64,7 +64,7 @@ Wire.begin(2,1);
  // INA.setBusVoltageRange(16);
 
   INA.setMaxCurrentShunt(5, 0.05);
-  INA.setGain(1);
+  INA.setGain(2);
   INA.setShuntResolution(12);
   INA.setBusResolution(12);
   INA.setShuntSamples(5);
@@ -92,9 +92,13 @@ void loop()
   Serial.print(INA.getShuntVoltage_mV(), 3);
   Serial.println();
   Serial.print("Load current in mA: ");
-  Serial.print( INA.getShuntVoltage_mV() * my_shunt /1000 , 3 );
+float shuntVolts = INA.getShuntVoltage_mV();
+float loadCurrent =   shuntVolts / ( my_shunt / 1000.0f) ;
+Serial.println(loadCurrent, 3);
+  Serial.print("Load current in mA: ");
+  Serial.println( INA.getCurrent_mA(),3 );
   Serial.println();
-  delay(10000);
+  delay(1000);
 
 
 
