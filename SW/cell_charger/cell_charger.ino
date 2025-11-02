@@ -70,13 +70,15 @@ void   Load_mode_CC_regulator()
 void   Charge_cell_CC()
 {
   float Load_ESR;
+  bool safetty=true;
   float BussVoltage = INA.getBusVoltage() ;
-  if ( BussVoltage >= cell_min_voltage & )
+  if (  (BussVoltage >= cell_min_voltage)   &&   (BussVoltage <= charge_target) )
   {
     if ((BussVoltage >= charge_target))
     {
         Serial.print("Cell charged or overcharged");
         // pause*
+        safetty=false;
     }
     else
     {
@@ -87,12 +89,14 @@ void   Charge_cell_CC()
   {
       Serial.print("Cell very discharge and proably bad");
       // pause*
+      safetty=false;
   }
 
   Serial.print("Bus voltage:  ");
   Serial.println(BussVoltage, 3);
 
-
+if ( safetty )
+{
   yy= My_DAC.DAC_Voltage_to_Value( BussVoltage + 0.2 );    // calculate value needed to get Vcell+0.25V at the output
   My_DAC.DAC_Write_2ch(0x0C , 1, 0, 1, yy );
   digitalWrite(36, 1);  // turn SMPS on
@@ -102,6 +106,12 @@ void   Charge_cell_CC()
   last_voltage_set = BussVoltage+  Load_ESR *chargeing_current /1000;
   yy= My_DAC.DAC_Voltage_to_Value( last_voltage_set );    
   My_DAC.DAC_Write_2ch(0x0C , 1, 0, 1, yy );
+}
+else 
+{
+delay(30000000000);
+}
+
 }
 
 
@@ -278,16 +288,14 @@ if (only_load)
 {
   Load_mode_CC_regulator();
 }
-
+else
+{
+  Charge_cell_CC_regulator();
+}
 
 
   delay(1000);
 }
-
-
-
-
-
 
 
 
